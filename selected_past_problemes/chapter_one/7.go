@@ -38,17 +38,19 @@ func main() {
 	}
 	var ans int
 	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
+		for j := i + 1; j < n; j++ {
 			lx := X[i] - X[j]
 			ly := Y[i] - Y[j]
 			rx := X[j] - X[i]
 			ry := Y[j] - Y[i]
-			if _, ok := m[Cordinate{xs: -lx, ys: ry}]; ok {
-				if _, ok := m[Cordinate{xs: rx, ys: -ly}]; ok {
-					v := lx*lx + ly*ly
-					if ans < v {
-						ans = v
-					}
+			_, ok1 := m[Cordinate{xs: -ly, ys: lx}]
+			_, ok2 := m[Cordinate{xs: ry, ys: -rx}]
+			_, ok3 := m[Cordinate{xs: ly, ys: -lx}]
+			_, ok4 := m[Cordinate{xs: -ry, ys: rx}]
+			if ok1 && ok2 || ok3 && ok4 {
+				v := lx*lx + ly*ly
+				if ans < v {
+					ans = v
 				}
 			}
 		}
