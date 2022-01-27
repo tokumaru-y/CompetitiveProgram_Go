@@ -1,5 +1,6 @@
 // https://www.ioi-jp.org/joi/2006/2007-ho-prob_and_sol/2007-ho.pdf#page=5
 
+// 位置ベクトルについて参考にしたサイト:https://kabukimining.hateblo.jp/entry/joi2007ho_c
 package main
 
 import (
@@ -39,16 +40,22 @@ func main() {
 	var ans int
 	for i := 0; i < n; i++ {
 		for j := i + 1; j < n; j++ {
-			lx := X[i] - X[j]
-			ly := Y[i] - Y[j]
-			rx := X[j] - X[i]
-			ry := Y[j] - Y[i]
-			_, ok1 := m[Cordinate{xs: -ly, ys: lx}]
-			_, ok2 := m[Cordinate{xs: ry, ys: -rx}]
-			_, ok3 := m[Cordinate{xs: ly, ys: -lx}]
-			_, ok4 := m[Cordinate{xs: -ry, ys: rx}]
-			if ok1 && ok2 || ok3 && ok4 {
-				v := lx*lx + ly*ly
+			dx := X[j] - X[i]
+			dy := Y[j] - Y[i]
+			ax := X[i] + dy
+			ay := Y[i] - dx
+			bx := ax + dx
+			by := ay + dy
+			lx := X[i] - dy
+			ly := Y[i] + dx
+			rx := lx + dx
+			ry := ly + dy
+			_, ok1 := m[Cordinate{xs: ax, ys: ay}]
+			_, ok2 := m[Cordinate{xs: bx, ys: by}]
+			_, ok3 := m[Cordinate{xs: lx, ys: ly}]
+			_, ok4 := m[Cordinate{xs: rx, ys: ry}]
+			if (ok1 && ok2) || (ok3 && ok4) {
+				v := dx*dx + dy*dy
 				if ans < v {
 					ans = v
 				}
