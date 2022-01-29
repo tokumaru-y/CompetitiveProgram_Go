@@ -28,17 +28,29 @@ func main() {
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
 			var tmp_sum int
-			dd := A[i] - B[j]
+			var st, en int
+			if A[i] <= B[j] {
+				st = A[i]
+				en = B[j]
+			}
 			for k := 0; k < n; k++ {
-				da := A[k] - A[i]
-				db := B[k] - B[j]
-				if da < 0 {
-					da = -da * 2
+				var nex int
+				if st > A[k] {
+					tmp_sum += (st - A[k]) * 2
+					nex = st
+				} else {
+					tmp_sum += A[k] - st
+					nex = A[k]
 				}
-				if db < 0 {
-					db = -db
+				if nex < B[k] {
+					tmp_sum += B[k] - nex
+					nex = B[k]
 				}
-				tmp_sum += db + da
+				if nex > en {
+					tmp_sum += nex - en
+				} else {
+					tmp_sum += en - nex
+				}
 			}
 			if ans > tmp_sum {
 				ans = tmp_sum
